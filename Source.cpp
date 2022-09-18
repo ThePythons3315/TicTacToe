@@ -6,7 +6,7 @@ using namespace std;
 class Board {
 public:
 
-
+	//this is a test David Bates
 
 	char space1 = '*';
 	char space2 = '*';
