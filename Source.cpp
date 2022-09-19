@@ -90,7 +90,39 @@ public:
 	}
 
 	bool isFinished() {
-		return false;
+		//if player one gets three X's across top row they win
+		if ((board_spots[0] == 'X') && (board_spots[1] == 'X') && (board_spots[2] == 'X')) {
+			cout << "Player 1 has won.\n";
+			return true;
+		}
+		//if player one gets three X's from top left corner dianonally to the right they win
+		else if ((board_spots[0] == 'X') && (board_spots[4] == 'X') && (board_spots[8] == 'X')) {
+			cout << "Player 1 has won.\n";
+			return true;
+		}
+		//if player one gets three X's from top right corner dianonally to the left they win
+		else if ((board_spots[2] == 'X') && (board_spots[4] == 'X') && (board_spots[6] == 'X')) {
+			cout << "Player 1 has won.\n";
+			return true;
+		}
+		//if player one gets three O's across top row they win
+		else if ((board_spots[0] == 'O') && (board_spots[1] == 'O') && (board_spots[2] == 'O')) {
+			cout << "Player 2 has won.\n";
+			return true;
+		}
+		//if player one gets three O's from top left corner dianonally to the right they win
+		else if ((board_spots[0] == 'O') && (board_spots[4] == 'O') && (board_spots[8] == 'O')) {
+			cout << "Player 2 has won.\n";
+			return true;
+		}
+		//if player one gets three O's from top right corner dianonally to the left they win
+		else if ((board_spots[2] == 'O') && (board_spots[4] == 'O') && (board_spots[6] == 'O')) {
+			cout << "Player 2 has won.\n";
+			return true;
+		}
+
+		else
+			return false;
 		
 		//this will determine if the game is finished all checks will be considered. 
 	}
@@ -119,9 +151,9 @@ public:
 			//------------at the end of each loop these need to be updated-----
 			player = -player;
 			obj1.update_player(player);
-			if (obj1.isFinished() == true) {
+			//if (obj1.isFinished() == true) {
 
-			}
+			//}
 
 		}//end while
 	}//end void starting script
