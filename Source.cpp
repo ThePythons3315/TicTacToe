@@ -1,18 +1,6 @@
 #include<iostream>
 using namespace std; 
 
-// Class to represent playing a game of TicTacToe
-class Game {
-public:
-
-	// declare fucnction to print out starting script when first playing a game
-	void starting_script() {
-		// Prints out the starting information for the game
-		// cout << "This is a TicTacToe game!" << endl;
-		// cout << "Player Number " << player_number << " is now playing." << endl;
-		// cout << "Please enter a number you would like to replace with an " << player_symbol << endl;
-	}
-};
 
 // Class to represent a TicTacToe game board
 class Board {
@@ -27,8 +15,9 @@ public:
 
 	// Create character arrays of acceptable input characters
 	// and already in use characters
+	// q/Q = quit   p/P = Play
 	char acceptable_chars[13] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'q', 'Q', 'p', 'P'};
-	char in_use[10] = { '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'};
+	char in_use[10] = { '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'};//No need for in_use
 
 	// declare function to display tictactoe board
 	// function takes an array as a parameter that will be used to fill
@@ -55,10 +44,33 @@ public:
 		for (int i = 0; i < 9; i++) {
 			if (board_spots[i] == input_value) {
 				board_spots[i] = player_symbol;
-			}
+			}//cycle through to player selection and input their symbol
+		}//end for loop
+	}
+
+	//resets the game you select 'play again'
+	void reset() {
+		for (char i = '1'; i < ':'; i++) {
+			board_spots[i-49] = i;
 		}
 	}
 };
+
+// Class to represent playing a game of TicTacToe
+class Game {
+public:
+	Board obj1;
+	// declare fucnction to print out starting script when first playing a game
+	void starting_script() {
+
+
+		// Prints out the starting information for the game
+		// cout << "This is a TicTacToe game!" << endl;
+		// cout << "Player Number " << player_number << " is now playing." << endl;
+		// cout << "Please enter a number you would like to replace with an " << player_symbol << endl;
+	}
+};
+
 
 int main() {
 	// create a char that can be used as the user input variable
