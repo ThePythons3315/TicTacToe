@@ -16,8 +16,8 @@ public:
 	// Create character arrays of acceptable input characters
 	// and already in use characters
 	// q/Q = quit   p/P = Play
-	char acceptable_chars[13] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'q', 'Q', 'p', 'P'};
-	char in_use[10] = { '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'};//No need for in_use
+	char acceptable_chars[13] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'q', 'Q', 'p', 'P' };
+
 
 	// declare function to display tictactoe board
 	// function takes an array as a parameter that will be used to fill
@@ -35,24 +35,64 @@ public:
 	// already have a player symbol in it
 	void validate_input() {
 		// Validate that the input character is an acceptable character
-
-		// Validate that the input character is not already in use
 	}
 
-	// declare function to update board_spots
-	void update_board_spots(char input_value) {
-		for (int i = 0; i < 9; i++) {
-			if (board_spots[i] == input_value) {
-				board_spots[i] = player_symbol;
-			}//cycle through to player selection and input their symbol
-		}//end for loop
+	//Updates the player from X->O & O->X
+	void update_player(int p) {
+		if (p == 1) {
+			player_number = 1;
+			player_symbol = 'X';
+		}
+		else {
+			player_number = 2;
+			player_symbol = 'O';
+		}
+	}
+	//returns the player
+	char getplayer() {
+		return player_symbol;
+	}
+
+	// declare function to update board_spots : This could also serve as the check 
+	bool update_board_spots(char input_value) {
+		if (input_value == 'q' || input_value == 'Q') {//checks to see if the 
+			isFinished();
+		}
+		else if (isFinished() == true && input_value=='p'|| input_value=='p') {
+			reset();
+		}
+		else {
+			for (int i = 0; i < 9; i++) {
+				if (board_spots[i] == input_value) {
+					if (input_value == 'X'|| input_value == 'x') {//checks to see if they picked the same spot as someone else 
+						cout << "you can't choose someone elses spot, pick a number!" << endl;
+						return false;
+					}
+					else if (input_value == 'O'|| input_value=='o') {//checks to see if they picked the same spot as someone else
+						cout << "you can't choose someone elses spot, pick a number!" << endl;
+						return false;
+					}
+					else {
+						board_spots[i] = player_symbol;
+						return true;
+					}
+				}
+			}//end for loop //cycle through to player selection and input their symbol
+		}
+		
 	}
 
 	//resets the game you select 'play again'
 	void reset() {
 		for (char i = '1'; i < ':'; i++) {
-			board_spots[i-49] = i;
+			board_spots[i - 49] = i;
 		}
+	}
+
+	bool isFinished() {
+		return false;
+		
+		//this will determine if the game is finished all checks will be considered. 
 	}
 };
 
@@ -60,21 +100,38 @@ public:
 class Game {
 public:
 	Board obj1;
-	// declare fucnction to print out starting script when first playing a game
+	int player = 1;
+	char input = '|';
+	//Game script
 	void starting_script() {
 
+		cout << "Welcome to Tick Tac Toe"<<endl;
+		//whole game will loop as long as it is not done. 
+		while (obj1.isFinished() == false) {
+			obj1.show_board();
+			
+		jump://this is for when the check happens
+			cout << "Player " << obj1.getplayer()<< " enter move (1-9): ";
+			cin >> input;
+			if (obj1.update_board_spots(input) == false) {
+				goto jump;
+			}
+			//------------at the end of each loop these need to be updated-----
+			player = -player;
+			obj1.update_player(player);
+			if (obj1.isFinished() == true) {
 
-		// Prints out the starting information for the game
-		// cout << "This is a TicTacToe game!" << endl;
-		// cout << "Player Number " << player_number << " is now playing." << endl;
-		// cout << "Please enter a number you would like to replace with an " << player_symbol << endl;
-	}
+			}
+
+		}//end while
+	}//end void starting script
+
 };
 
 
 int main() {
 	// create a char that can be used as the user input variable
-	char input_value = '|';
+	/*char input_value = '|';
 
 	// Create a board object
 	Board object1;
@@ -87,6 +144,11 @@ int main() {
 	// Update the board with the player's symbol
 	object1.update_board_spots(input_value);
 	object1.show_board();
+	*/
+	Game object;
+
+	object.starting_script();
+
 	return 0;
 
 }
