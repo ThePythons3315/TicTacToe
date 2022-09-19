@@ -1,92 +1,80 @@
 #include<iostream>
 using namespace std; 
 
-
-
-class Board {
+// Class to represent playing a game of TicTacToe
+class Game {
 public:
 
-	//this is a test David Bates
+	// declare fucnction to print out starting script when first playing a game
+	void starting_script() {
+		// Prints out the starting information for the game
+		// cout << "This is a TicTacToe game!" << endl;
+		// cout << "Player Number " << player_number << " is now playing." << endl;
+		// cout << "Please enter a number you would like to replace with an " << player_symbol << endl;
+	}
+};
 
-	char space1 = '*';
-	char space2 = '*';
-	char space3 = '*';
-	char space4 = '*';
-	char space5 = '*';
-	char space6 = '*';
-	char space7 = '*';
-	char space8 = '*';
-	char space9 = '*';
+// Class to represent a TicTacToe game board
+class Board {
+public:
+	// Create a character array to hold the 9 available spots of the board
+	char board_spots[9] = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
-	void charInputCheck() {
+	// Create the player value variables
+	int player_number = 1;
+	char player_symbol = 'X';
+	char input_value = '|';
 
-		//here we will check to see if the char input is valid and does not over write what is already there. 
+	// Create character arrays of acceptable input characters
+	// and already in use characters
+	char acceptable_chars[13] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'q', 'Q', 'p', 'P'};
+	char in_use[10] = { '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'};
 
+	// declare function to display tictactoe board
+	// function takes an array as a parameter that will be used to fill
+	// in the user inputted spots
+	void show_board() {
+		cout << board_spots[0] << "|" << board_spots[1] << "|" << board_spots[2] << "\n";
+		cout << "-" << "-" << "-" << "-" << "-" << "\n";
+		cout << board_spots[3] << "|" << board_spots[4] << "|" << board_spots[5] << "\n";
+		cout << "-" << "-" << "-" << "-" << "-" << "\n";
+		cout << board_spots[6] << "|" << board_spots[7] << "|" << board_spots[8] << "\n";
 	}
 
-	void numInputCheck() {
+	// declare function to validate that a user input is an acceptable character
+	// and if the input is a spot number, the spot number does not
+	// already have a player symbol in it
+	void validate_input() {
+		// Validate that the input character is an acceptable character
 
-		//here we will check to see if the number is valid and does not over write what is already here 
-
+		// Validate that the input character is not already in use
 	}
 
-	Board() {
-
-		cout << space1 << "|" << space2 << "|" << space3 << endl;
-		cout << "_|_|_" << endl;
-		cout << space4 << "|" << space5 << "|" << space6 << endl;
-		cout << "_|_|_" << endl;
-		cout << space7 << "|" << space8 << "|" << space9 << endl;
-		cout << " | | " << endl;
-
+	// declare function to update board_spots
+	void update_board_spots(char input_value) {
+		for (int i = 0; i < 9; i++) {
+			if (board_spots[i] == input_value) {
+				board_spots[i] = player_symbol;
+			}
+		}
 	}
-
-	Board(char, int, int) {
-
-		//This will be user input and put things where they need to be in the board. 
-	}
-
-	bool isFinished() {
-
-		//here is where we would be checking to see if the game is over. 
-		return true;
-	}
-
-	void gameReset() {
-
-		//reset all base values to way they were before 
-	}
-
 };
 
 int main() {
-	Board* game{};
+	// create a char that can be used as the user input variable
+	char input_value = '|';
 
-	char inputL;
-	int inputN;
-	int toggle = 1;
+	// Create a board object
+	Board object1;
+	object1.show_board();
 
-	while (game->isFinished() == false) {
-		Board();
-	jump1:
+	// Get the spot the user would like to place their symbol in
+	// validate that the input value is a space on the board
+	cin >> input_value;
 
-		cout << "Input which row:       (A, B, C)" << endl;
-		cin >> inputL;
-		game->charInputCheck();//This should check and send back to "jump1" if it is invalid
-
-
-	jump2:
-		cout << "Input which column:     (1, 2, 3)" << endl;
-		cin >> inputN;
-		game->numInputCheck();//This should check and send back to jump2 if it is invalid
-
-		Board(inputL, inputN, toggle);
-		toggle = -toggle;
-
-	}	//game is ended
-
-
-
+	// Update the board with the player's symbol
+	object1.update_board_spots(input_value);
+	object1.show_board();
 	return 0;
 
 }
