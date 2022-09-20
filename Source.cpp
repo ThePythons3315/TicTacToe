@@ -93,31 +93,43 @@ public:
 		//if player one gets three X's across top row they win
 		if ((board_spots[0] == 'X') && (board_spots[1] == 'X') && (board_spots[2] == 'X')) {
 			cout << "Player 1 has won.\n";
+			show_board();
 			return true;
 		}
 		//if player one gets three X's from top left corner dianonally to the right they win
 		else if ((board_spots[0] == 'X') && (board_spots[4] == 'X') && (board_spots[8] == 'X')) {
 			cout << "Player 1 has won.\n";
+			show_board();
 			return true;
 		}
 		//if player one gets three X's from top right corner dianonally to the left they win
 		else if ((board_spots[2] == 'X') && (board_spots[4] == 'X') && (board_spots[6] == 'X')) {
 			cout << "Player 1 has won.\n";
+			show_board();
+			return true;
+		}
+		//if player one gets three X's across the middle row they win the game
+		else if ((board_spots[3] == 'X') && (board_spots[4] == 'X') && (board_spots[5] == 'X')) {
+			cout << "Player 1 has won.\n";
+			show_board();
 			return true;
 		}
 		//if player one gets three O's across top row they win
 		else if ((board_spots[0] == 'O') && (board_spots[1] == 'O') && (board_spots[2] == 'O')) {
 			cout << "Player 2 has won.\n";
+			show_board();
 			return true;
 		}
 		//if player one gets three O's from top left corner dianonally to the right they win
 		else if ((board_spots[0] == 'O') && (board_spots[4] == 'O') && (board_spots[8] == 'O')) {
 			cout << "Player 2 has won.\n";
+			show_board();
 			return true;
 		}
 		//if player one gets three O's from top right corner dianonally to the left they win
 		else if ((board_spots[2] == 'O') && (board_spots[4] == 'O') && (board_spots[6] == 'O')) {
 			cout << "Player 2 has won.\n";
+			show_board();
 			return true;
 		}
 
