@@ -90,52 +90,82 @@ public:
 	}
 
 	bool isFinished() {
-		//if player one gets three X's across top row they win
-		if ((board_spots[0] == 'X') && (board_spots[1] == 'X') && (board_spots[2] == 'X')) {
-			cout << "Player 1 has won.\n";
+		//if a player gets three X's or O's across top row they win
+		if ((board_spots[0] == board_spots[1]) && (board_spots[1] == board_spots[2])) {
 			show_board();
+			//if the winning board spot is = to X(player1) it will print that player one has won
+			//if not it will print player 2 has won
+			if (board_spots[0] == 'X')
+				cout << "Player 1 has won.\n";
+			else
+				cout << "Player 2 has won.\n";
 			return true;
 		}
-		//if player one gets three X's from top left corner dianonally to the right they win
-		else if ((board_spots[0] == 'X') && (board_spots[4] == 'X') && (board_spots[8] == 'X')) {
-			cout << "Player 1 has won.\n";
+		//if a player gets three X's or O's from top left corner dianonally to the right they win
+		else if ((board_spots[0] == board_spots[4]) && (board_spots[4] == board_spots[8])) {
 			show_board();
+			if (board_spots[0] == 'X')
+				cout << "Player 1 has won.\n";
+			else
+				cout << "Player 2 has won.\n";
 			return true;
 		}
-		//if player one gets three X's from top right corner dianonally to the left they win
-		else if ((board_spots[2] == 'X') && (board_spots[4] == 'X') && (board_spots[6] == 'X')) {
-			cout << "Player 1 has won.\n";
+		//if a player gets three X's or O's from top right corner dianonally to the left they win
+		else if ((board_spots[2] == board_spots[4]) && (board_spots[4] == board_spots[6])) {
 			show_board();
+			if (board_spots[0] == 'X')
+				cout << "Player 1 has won.\n";
+			else
+				cout << "Player 2 has won.\n";
 			return true;
 		}
-		//if player one gets three X's across the middle row they win the game
-		else if ((board_spots[3] == 'X') && (board_spots[4] == 'X') && (board_spots[5] == 'X')) {
-			cout << "Player 1 has won.\n";
+		//if a player gets three X's or O'sacross the middle row they win the game
+		else if ((board_spots[3] == board_spots[4]) && (board_spots[4] == board_spots[5])) {
 			show_board();
+			if (board_spots[0] == 'X')
+				cout << "Player 1 has won.\n";
+			else
+				cout << "Player 2 has won.\n";
 			return true;
 		}
-		//if player one gets three O's across top row they win
-		else if ((board_spots[0] == 'O') && (board_spots[1] == 'O') && (board_spots[2] == 'O')) {
-			cout << "Player 2 has won.\n";
+		//if a player gets three X's or O's across bottom row they win
+		else if ((board_spots[6] == board_spots[7]) && (board_spots[7] == board_spots[8])) {
 			show_board();
+			if (board_spots[0] == 'X')
+				cout << "Player 1 has won.\n";
+			else
+				cout << "Player 2 has won.\n";
 			return true;
 		}
-		//if player one gets three O's from top left corner dianonally to the right they win
-		else if ((board_spots[0] == 'O') && (board_spots[4] == 'O') && (board_spots[8] == 'O')) {
-			cout << "Player 2 has won.\n";
+		//if a player gets three X's O's down the left column they win
+		else if ((board_spots[0] == board_spots[3]) && (board_spots[3] == board_spots[6])) {
 			show_board();
+			if (board_spots[0] == 'X')
+				cout << "Player 1 has won.\n";
+			else
+				cout << "Player 2 has won.\n";
 			return true;
 		}
-		//if player one gets three O's from top right corner dianonally to the left they win
-		else if ((board_spots[2] == 'O') && (board_spots[4] == 'O') && (board_spots[6] == 'O')) {
-			cout << "Player 2 has won.\n";
+		//if a player  gets three X's or O's down the right column they win
+		else if ((board_spots[2] == board_spots[5]) && (board_spots[5] == board_spots[8])) {
 			show_board();
+			if (board_spots[0] == 'X')
+				cout << "Player 1 has won.\n";
+			else
+				cout << "Player 2 has won.\n";
 			return true;
 		}
-
+		//if a player  gets three X's or O's down the middle column they win
+		else if ((board_spots[1] == board_spots[4]) && (board_spots[4] == board_spots[7])) {
+			show_board();
+			if (board_spots[0] == 'X')
+				cout << "Player 1 has won.\n";
+			else
+				cout << "Player 2 has won.\n";
+			return true;
+		}
 		else
 			return false;
-		
 		//this will determine if the game is finished all checks will be considered. 
 	}
 };
