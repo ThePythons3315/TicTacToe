@@ -1,4 +1,5 @@
 #include<iostream>
+#include <string>
 using namespace std;
 
 // Class to represent a TicTacToe game board
@@ -27,7 +28,7 @@ public:
 		}
 	}
 
-	//resets the game you select 'play again'
+	// Declare function to reset the game you select 'play again'
 	void reset_board() {
 		for (char i = '1'; i < ':'; i++) {
 			board_spots[i - 49] = i;// Use char math to reset all spots in board to numbers 1-9
@@ -42,7 +43,7 @@ public:
 	// Create the player value variables
 	int player = 1;
 	char player_symbol = 'X';
-	char input = '|';
+	string input = "";
 
 	// Create arrays to help with input validation
 	char acceptable_chars[13] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'q', 'Q', 'p', 'P' };
@@ -66,12 +67,12 @@ public:
 			// Get the user input and update the characters in use array
 			do {
 				cout << "Player " << player_symbol << " enter move (1-9): ";
-				cin >> input;
+				getline(cin, input);
 			} while (validate_input(input) == false);
-			update_in_use_array(input);
+			update_in_use_array(input[0]);
 
 			// Update the board spots with new player symbols
-			obj1.update_board_spots(input, player_symbol);
+			obj1.update_board_spots(input[0], player_symbol);
 
 			// Switch the current player's number and symbol to the next player's number and symbol
 			update_player();
@@ -82,11 +83,11 @@ public:
 	void update_player() {
 		// If player 1 just went, switch to player 2 and vice versa
 		if (player_symbol == 'X') {
-			player == 2;
+			player = 2;
 			player_symbol = 'O';
 		}
 		else {
-			player == 1;
+			player = 1;
 			player_symbol = 'X';
 		}
 	}
@@ -174,16 +175,21 @@ public:
 	// declare function to validate that a user input is an acceptable character
 	// and if the input is a spot number, the spot number does not
 	// already have a player symbol in it
-	bool validate_input(char input_value) {
+	bool validate_input(string input_value) {
 		// bool variable to be returned true if input character is validated
+		bool one_character_only = false;
 		bool input_acceptable = false;
 		bool input_not_in_use = true;
+
+		if (input_value.length() == 1) {
+			one_character_only = true;
+		}
 
 		// Validate that the input character is an acceptable character
 		for (int i = 0; i < 12; i++) {
 			// input is an acceptable character if it is in the
 			// acceptable_chars array
-			if (input_value == acceptable_chars[i]) {
+			if (input_value[0] == acceptable_chars[i]) {
 				input_acceptable = true;
 			}
 		}
@@ -192,14 +198,14 @@ public:
 		for (int i = 0; i < 9; i++) {
 			// input is acceptable if the character is not in the
 			// in_use array, if it is turn the variable to false
-			if (input_value == in_use[i]) {
+			if (input_value[0] == in_use[i]) {
 				input_not_in_use = false;
 			}
 		}
 
 		// if character is not in use and is an acceptable character
 		// return true, otherwise return false
-		if (input_acceptable == true && input_not_in_use == true) {
+		if (input_acceptable == true && input_not_in_use == true && one_character_only == true) {
 			return true;
 		}
 		return false;
