@@ -8,9 +8,7 @@ public:
 	// Create a character array to hold the 9 available spots of the board
 	char board_spots[9] = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
-	// Declare function to display tictactoe board
-	// function takes an array as a parameter that will be used to fill
-	// in the user inputted spots
+	// Displays the game board
 	void show_board() {
 		cout << board_spots[0] << "|" << board_spots[1] << "|" << board_spots[2] << "\n";
 		cout << "-" << "-" << "-" << "-" << "-" << "\n";
@@ -19,7 +17,7 @@ public:
 		cout << board_spots[6] << "|" << board_spots[7] << "|" << board_spots[8] << "\n";
 	}
 
-	// Declare function to update board spots with player symbol
+	// Updates game board with player's symbols
 	void update_board_spots(char input_value, char symbol) {
 		for (int i = 0; i < 9; i++) {
 			if (board_spots[i] == input_value) {
@@ -28,7 +26,7 @@ public:
 		}
 	}
 
-	// Declare function to reset the game you select 'play again'
+	// Resets the game board to original layout
 	void reset_board() {
 		for (char i = '1'; i < ':'; i++) {
 			board_spots[i - 49] = i;// Use char math to reset all spots in board to numbers 1-9
@@ -39,13 +37,13 @@ public:
 // Class to represent playing a game of TicTacToe
 class Game {
 public:
-
-	// Create the player value variables
+	// Create variables associated with the players
 	int player = 1;
 	char player_symbol = 'X';
 	string input = "";
 
-	// Create variable to say if this is the start of a new game
+	// Create variables to track start of a new game
+	// or if a game has been quit
 	bool new_game = true;
 	bool quit_game = false;
 
@@ -56,53 +54,47 @@ public:
 	// Create an object of the board class
 	Board obj1;
 
-	//Game script
+	// Game script, actually runs the game
 	void run_game() {
-		
 		// loop as long as the game has not finished
 		while (isFinished() == false) {
 
-			// If this is a new game, print out this statement
+			// If this is a new game, print out opening statement
 			if (new_game == true) {
-				// Opening statement for the game
 				cout << "Welcome to Tic Tac Toe" << endl;
-				new_game = false;
+				new_game = false;//Set new_game to false, game has started
 			}
 
-			// Show the board on the screen
-			obj1.show_board();
+			obj1.show_board();//Show the board on the screen
 
-			// Get the user input and update the characters in use array
+			// Get user input for playing the game
 			do {
 				cout << "Player " << player_symbol << " enter move (1-9): ";
 				getline(cin, input);
-			} while (validate_input(input) == false);
+			} while (validate_input(input) == false);//Ask for characters until user enters correct one
+			update_in_use_array(input[0]);//Update the characters in the in_use array
 
-			update_in_use_array(input[0]);
+			obj1.update_board_spots(input[0], player_symbol);//Update board spots with new player symbols
 
-			// Update the board spots with new player symbols
-			obj1.update_board_spots(input[0], player_symbol);
+			update_player();//Switch the current player's number and symbol to the next player's number and symbol
 
-			// Switch the current player's number and symbol to the next player's number and symbol
-			update_player();
-
+			// Quit the game if user entered 'q' or 'Q'
 			if (input[0] == 'q' || input[0] == 'Q') {
-				// User wants to terminate the game
 				cout << "You have chosen to terminate the game. Thanks for playing!" << endl;
-				quit_game = true;
+				quit_game = true;//Set quit variable to true so game will terminate
 				break;
 			}
+			// Restart the game if user entered 'p' or 'P'
 			else if (input[0] == 'p' || input[0] == 'P') {
-				// Reset all game / board features
-				restart_game();
+				restart_game();//Reset all game/board features
 			}
 
 		}//end while
-		restart_game();
+		restart_game();//Reset game/board in case the user wants to play again
 	}
 
+	// If player 1 just went, switch to player 2 and vice versa
 	void update_player() {
-		// If player 1 just went, switch to player 2 and vice versa
 		if (player_symbol == 'X') {
 			player = 2;
 			player_symbol = 'O';
@@ -113,21 +105,14 @@ public:
 		}
 	}
 
+	// Checks all win / draw conditions and returns true if game ended, false to keep playing
 	bool isFinished() {
 		//if a player gets three X's or O's across top row they win
 		if ((obj1.board_spots[0] == obj1.board_spots[1]) && (obj1.board_spots[1] == obj1.board_spots[2])) {
 			show_winner(obj1.board_spots[0]);
 			return true;
 		}
-		//if a player gets three X's or O's from top left corner dianonally to the right they win
-		else if ((obj1.board_spots[0] == obj1.board_spots[4]) && (obj1.board_spots[4] == obj1.board_spots[8])) {
-			show_winner(obj1.board_spots[0]);
-		}
-		//if a player gets three X's or O's from top right corner dianonally to the left they win
-		else if ((obj1.board_spots[2] == obj1.board_spots[4]) && (obj1.board_spots[4] == obj1.board_spots[6])) {
-			show_winner(obj1.board_spots[2]);
-		}
-		//if a player gets three X's or O'sacross the middle row they win the game
+		//if a player gets three X's or O's across the middle row they win the game
 		else if ((obj1.board_spots[3] == obj1.board_spots[4]) && (obj1.board_spots[4] == obj1.board_spots[5])) {
 			show_winner(obj1.board_spots[3]);
 			return true;
@@ -137,7 +122,7 @@ public:
 			show_winner(obj1.board_spots[6]);
 			return true;
 		}
-		//if a player gets three X's O's down the left column they win
+		//if a player gets three X's or O's down the left column they win
 		else if ((obj1.board_spots[0] == obj1.board_spots[3]) && (obj1.board_spots[3] == obj1.board_spots[6])) {
 			show_winner(obj1.board_spots[0]);
 			return true;
@@ -152,18 +137,28 @@ public:
 			show_winner(obj1.board_spots[1]);
 			return true;
 		}
+		//if a player gets three X's or O's from top left corner dianonally to the right they win
+		else if ((obj1.board_spots[0] == obj1.board_spots[4]) && (obj1.board_spots[4] == obj1.board_spots[8])) {
+			show_winner(obj1.board_spots[0]);
+			return true;
+		}
+		//if a player gets three X's or O's from top right corner dianonally to the left they win
+		else if ((obj1.board_spots[2] == obj1.board_spots[4]) && (obj1.board_spots[4] == obj1.board_spots[6])) {
+			show_winner(obj1.board_spots[2]);
+			return true;
+		}
 		// Checks for a draw
 		else if (check_draw())
 		{
 			obj1.show_board();
 			cout << "There was a draw. You are both winners!!" << endl;
+			return true;
 		}
 		else
-			return false;
-		//this will determine if the game is finished all checks will be considered. 
+			return false;//Game is not finished, continue playing game
 	}
 
-	// Function to determine if game is a draw
+	// Determine if game ended in draw
 	bool check_draw() {
 		int count = 0;
 
@@ -174,18 +169,18 @@ public:
 				count += 1;
 			}
 		}
+		// Only 'X' and 'O' on board, game ends in draw
 		if (count == 0) {
 			return true;
 		}
 		return false;
 	}
 
-
-	// declare function to validate that a user input is an acceptable character
+	// Validate that user input is an acceptable character
 	// and if the input is a spot number, the spot number does not
 	// already have a player symbol in it
 	bool validate_input(string input_value) {
-		// bool variable to be returned true if input character is validated
+		// Bool variablea to be returned true if input character is validated
 		bool one_character_only = false;
 		bool input_acceptable = false;
 		bool input_not_in_use = true;
@@ -197,7 +192,7 @@ public:
 
 		// Validate that the input character is an acceptable character
 		for (int i = 0; i < 13; i++) {
-			// input is an acceptable character if it is in the
+			// Input is an acceptable character if it is in the
 			// acceptable_chars array
 			if (input_value[0] == acceptable_chars[i]) {
 				input_acceptable = true;
@@ -206,21 +201,22 @@ public:
 
 		// Validate that the input character is not already in use
 		for (int i = 0; i < 9; i++) {
-			// input is acceptable if the character is not in the
+			// Input is acceptable if the character is not in the
 			// in_use array, if it is turn the variable to false
 			if (input_value[0] == in_use[i]) {
 				input_not_in_use = false;
 			}
 		}
 
-		// if character is not in use and is an acceptable character
-		// return true, otherwise return false
+		// If character is not in use, is an acceptable character
+		// and is only a single character, then return true, otherwise return false
 		if (input_acceptable == true && input_not_in_use == true && one_character_only == true) {
 			return true;
 		}
 		return false;
 	}
 
+	// Adds the spot number that was just taken to the in_use array
 	void update_in_use_array(char input_value) {
 		// Add the used input_value into the in_use array at the 
 		// first spot available
@@ -232,13 +228,15 @@ public:
 		}
 	}
 
-	void reset_is_use_array() {
+	// Resets the in_use array to orginal state
+	void reset_in_use_array() {
 		// Reset the in_use array to not include any in use spot numbers
 		for (int i = 0; i < 9; i++) {
 			in_use[i] = '*';
 		}
 	}
 
+	// Prints the winner of the game to the console
 	void show_winner(char player_symbol) {
 		obj1.show_board();
 		if (player_symbol == 'X')
@@ -247,25 +245,19 @@ public:
 			cout << "Player 2 has won.\n";
 	}
 
+	// Resets the player information to original state
 	void reset_player() {
 		player = 1;
 		player_symbol = 'X';
 	}
 
+	// Calls all reset functions and resets board/game to original state
 	void restart_game() {
-		// Reset board
-		obj1.reset_board();
-
-		// Reset in use characters
-		reset_is_use_array();
-
-		// Reset the player back to player 1
-		reset_player();
-
-		// Turn new game variable to true
-		new_game = true;
+		obj1.reset_board();//Reset board
+		reset_in_use_array();//Reset in use characters
+		reset_player();//Reset the player back to player 1
+		new_game = true;//Turn new game variable to true
 	}
-
 };
 
 
@@ -277,14 +269,12 @@ int main() {
 	// Create game object
 	Game object;
 
-	// loop allows the game to be played multiple times
+	// Loop that allows the game to be played multiple times
 	do {
-		// sets play_again to false at start of loop to prevent infinite loop
-		// of playing game
-		play_again = false;
+		
+		play_again = false;//Sets play_again to false to prevent infinite loop of playing again
 
-		// Function that actually plays the game
-		object.run_game();
+		object.run_game();//Function call that actually plays the game
 
 		// If the user quit mid game, this prevents the user from being given the 
 		// option to play again
@@ -307,7 +297,7 @@ int main() {
 			cout << "You have chosen to terminate the game. Thanks for playing!" << endl;
 		}
 
-	} while (play_again == true);
+	} while (play_again == true);//Plays another game if play_again is set to true
 	
 	return 0;
 }
