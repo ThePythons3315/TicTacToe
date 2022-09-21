@@ -47,6 +47,7 @@ public:
 
 	// Create variable to say if this is the start of a new game
 	bool new_game = true;
+	bool quit_game = false;
 
 	// Create arrays to help with input validation
 	char acceptable_chars[13] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'q', 'Q', 'p', 'P'};
@@ -57,6 +58,7 @@ public:
 
 	//Game script
 	void run_game() {
+		
 		// loop as long as the game has not finished
 		while (isFinished() == false) {
 
@@ -85,14 +87,18 @@ public:
 			update_player();
 
 			if (input[0] == 'q' || input[0] == 'Q') {
-				cout << "You have chosen to terminate the game.Thanks for playing!" << endl;
+				// User wants to terminate the game
+				cout << "You have chosen to terminate the game. Thanks for playing!" << endl;
+				quit_game = true;
 				break;
 			}
 			else if (input[0] == 'p' || input[0] == 'P') {
+				// Reset all game / board features
 				restart_game();
 			}
 
 		}//end while
+		restart_game();
 	}
 
 	void update_player() {
@@ -264,7 +270,44 @@ public:
 
 
 int main() {
+	// Create variables to allow user to play game multiple times
+	string input = "";
+	bool play_again;
+
+	// Create game object
 	Game object;
-	object.run_game();
+
+	// loop allows the game to be played multiple times
+	do {
+		// sets play_again to false at start of loop to prevent infinite loop
+		// of playing game
+		play_again = false;
+
+		// Function that actually plays the game
+		object.run_game();
+
+		// If the user quit mid game, this prevents the user from being given the 
+		// option to play again
+		if (object.quit_game == true) {
+			break;
+		}
+
+		// Gets input from the user to see if they would like to play again
+		// will only be asked if the game ended in a win/draw
+		cout << "\nWould you like to play again? Enter 'p' or 'P' to play again." << endl;
+		cout << "Enter anything else to quit.\n" << endl;
+		getline(cin, input);
+
+		// The user wanted to play again if they entered a p, anything else prints 
+		// a terminate message
+		if ((input == "p" || input == "P")) {
+			play_again = true;
+		}
+		else {
+			cout << "You have chosen to terminate the game. Thanks for playing!" << endl;
+		}
+
+	} while (play_again == true);
+	
 	return 0;
 }
