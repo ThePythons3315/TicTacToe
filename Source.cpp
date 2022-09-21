@@ -82,11 +82,11 @@ public:
 	void update_player() {
 		// If player 1 just went, switch to player 2 and vice versa
 		if (player_symbol == 'X') {
-			player == 2;
+			player = 2;
 			player_symbol = 'O';
 		}
 		else {
-			player == 1;
+			player = 1;
 			player_symbol = 'X';
 		}
 	}
@@ -166,10 +166,31 @@ public:
 				cout << "Player 2 has won.\n";
 			return true;
 		}
+		else if (check_draw())
+		{
+			obj1.show_board();
+			cout << "There was a draw. You are both winners!!" << endl;
+		}
 		else
 			return false;
 		//this will determine if the game is finished all checks will be considered. 
 	}
+
+	// Function to determine if game is a draw
+	bool check_draw() {
+		int count = 0;
+
+		for (int i = 0; i < 9; i++) {
+			if (obj1.board_spots[i] >= 49 && obj1.board_spots[i] <= 57) {
+				count += 1;
+			}
+		}
+		if (count == 0) {
+			return true;
+		}
+		return false;
+	}
+
 
 	// declare function to validate that a user input is an acceptable character
 	// and if the input is a spot number, the spot number does not
