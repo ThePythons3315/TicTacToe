@@ -45,8 +45,11 @@ public:
 	char player_symbol = 'X';
 	string input = "";
 
+	// Create variable to say if this is the start of a new game
+	bool new_game = true;
+
 	// Create arrays to help with input validation
-	char acceptable_chars[13] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'q', 'Q', 'p', 'P' };
+	char acceptable_chars[13] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'q', 'Q', 'p', 'P'};
 	char in_use[9] = { '*', '*', '*', '*', '*', '*', '*', '*', '*' };
 
 	// Create an object of the board class
@@ -54,12 +57,15 @@ public:
 
 	//Game script
 	void run_game() {
-
-		// Opening statement for the game
-		cout << "Welcome to Tic Tac Toe" << endl;
-
 		// loop as long as the game has not finished
 		while (isFinished() == false) {
+
+			// If this is a new game, print out this statement
+			if (new_game == true) {
+				// Opening statement for the game
+				cout << "Welcome to Tic Tac Toe" << endl;
+				new_game = false;
+			}
 
 			// Show the board on the screen
 			obj1.show_board();
@@ -69,6 +75,7 @@ public:
 				cout << "Player " << player_symbol << " enter move (1-9): ";
 				getline(cin, input);
 			} while (validate_input(input) == false);
+
 			update_in_use_array(input[0]);
 
 			// Update the board spots with new player symbols
@@ -76,6 +83,14 @@ public:
 
 			// Switch the current player's number and symbol to the next player's number and symbol
 			update_player();
+
+			if (input[0] == 'q' || input[0] == 'Q') {
+				cout << "You have chosen to terminate the game.Thanks for playing!" << endl;
+				break;
+			}
+			else if (input[0] == 'p' || input[0] == 'P') {
+				restart_game();
+			}
 
 		}//end while
 	}
@@ -169,12 +184,13 @@ public:
 		bool input_acceptable = false;
 		bool input_not_in_use = true;
 
+		// If the input is not more than one character, set variable to true
 		if (input_value.length() == 1) {
 			one_character_only = true;
 		}
 
 		// Validate that the input character is an acceptable character
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 13; i++) {
 			// input is an acceptable character if it is in the
 			// acceptable_chars array
 			if (input_value[0] == acceptable_chars[i]) {
@@ -223,6 +239,25 @@ public:
 			cout << "Player 1 has won.\n";
 		else
 			cout << "Player 2 has won.\n";
+	}
+
+	void reset_player() {
+		player = 1;
+		player_symbol = 'X';
+	}
+
+	void restart_game() {
+		// Reset board
+		obj1.reset_board();
+
+		// Reset in use characters
+		reset_is_use_array();
+
+		// Reset the player back to player 1
+		reset_player();
+
+		// Turn new game variable to true
+		new_game = true;
 	}
 
 };
