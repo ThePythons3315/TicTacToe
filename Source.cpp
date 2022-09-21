@@ -95,78 +95,43 @@ public:
 	bool isFinished() {
 		//if a player gets three X's or O's across top row they win
 		if ((obj1.board_spots[0] == obj1.board_spots[1]) && (obj1.board_spots[1] == obj1.board_spots[2])) {
-			obj1.show_board();
-			//if the winning board spot is = to X(player1) it will print that player one has won
-			//if not it will print player 2 has won
-			if (obj1.board_spots[0] == 'X')
-				cout << "Player 1 has won.\n";
-			else
-				cout << "Player 2 has won.\n";
+			show_winner(obj1.board_spots[0]);
 			return true;
 		}
 		//if a player gets three X's or O's from top left corner dianonally to the right they win
 		else if ((obj1.board_spots[0] == obj1.board_spots[4]) && (obj1.board_spots[4] == obj1.board_spots[8])) {
-			obj1.show_board();
-			if (obj1.board_spots[0] == 'X')
-				cout << "Player 1 has won.\n";
-			else
-				cout << "Player 2 has won.\n";
-			return true;
+			show_winner(obj1.board_spots[0]);
 		}
 		//if a player gets three X's or O's from top right corner dianonally to the left they win
 		else if ((obj1.board_spots[2] == obj1.board_spots[4]) && (obj1.board_spots[4] == obj1.board_spots[6])) {
-			obj1.show_board();
-			if (obj1.board_spots[0] == 'X')
-				cout << "Player 1 has won.\n";
-			else
-				cout << "Player 2 has won.\n";
-			return true;
+			show_winner(obj1.board_spots[2]);
 		}
 		//if a player gets three X's or O'sacross the middle row they win the game
 		else if ((obj1.board_spots[3] == obj1.board_spots[4]) && (obj1.board_spots[4] == obj1.board_spots[5])) {
-			obj1.show_board();
-			if (obj1.board_spots[0] == 'X')
-				cout << "Player 1 has won.\n";
-			else
-				cout << "Player 2 has won.\n";
+			show_winner(obj1.board_spots[3]);
 			return true;
 		}
 		//if a player gets three X's or O's across bottom row they win
 		else if ((obj1.board_spots[6] == obj1.board_spots[7]) && (obj1.board_spots[7] == obj1.board_spots[8])) {
-			obj1.show_board();
-			if (obj1.board_spots[0] == 'X')
-				cout << "Player 1 has won.\n";
-			else
-				cout << "Player 2 has won.\n";
+			show_winner(obj1.board_spots[6]);
 			return true;
 		}
 		//if a player gets three X's O's down the left column they win
 		else if ((obj1.board_spots[0] == obj1.board_spots[3]) && (obj1.board_spots[3] == obj1.board_spots[6])) {
-			obj1.show_board();
-			if (obj1.board_spots[0] == 'X')
-				cout << "Player 1 has won.\n";
-			else
-				cout << "Player 2 has won.\n";
+			show_winner(obj1.board_spots[0]);
 			return true;
 		}
 		//if a player  gets three X's or O's down the right column they win
 		else if ((obj1.board_spots[2] == obj1.board_spots[5]) && (obj1.board_spots[5] == obj1.board_spots[8])) {
-			obj1.show_board();
-			if (obj1.board_spots[0] == 'X')
-				cout << "Player 1 has won.\n";
-			else
-				cout << "Player 2 has won.\n";
+			show_winner(obj1.board_spots[2]);
 			return true;
 		}
 		//if a player  gets three X's or O's down the middle column they win
 		else if ((obj1.board_spots[1] == obj1.board_spots[4]) && (obj1.board_spots[4] == obj1.board_spots[7])) {
-			obj1.show_board();
-			if (obj1.board_spots[0] == 'X')
-				cout << "Player 1 has won.\n";
-			else
-				cout << "Player 2 has won.\n";
+			show_winner(obj1.board_spots[1]);
 			return true;
 		}
+		// Checks for a draw
 		else if (check_draw())
 		{
 			obj1.show_board();
@@ -181,6 +146,8 @@ public:
 	bool check_draw() {
 		int count = 0;
 
+		// If there is at least one ascii number in the array, return false
+		// meaning there is not draw
 		for (int i = 0; i < 9; i++) {
 			if (obj1.board_spots[i] >= 49 && obj1.board_spots[i] <= 57) {
 				count += 1;
@@ -248,6 +215,14 @@ public:
 		for (int i = 0; i < 9; i++) {
 			in_use[i] = '*';
 		}
+	}
+
+	void show_winner(char player_symbol) {
+		obj1.show_board();
+		if (player_symbol == 'X')
+			cout << "Player 1 has won.\n";
+		else
+			cout << "Player 2 has won.\n";
 	}
 
 };
