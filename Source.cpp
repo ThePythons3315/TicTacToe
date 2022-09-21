@@ -62,6 +62,7 @@ public:
 			// If this is a new game, print out opening statement
 			if (new_game == true) {
 				cout << "Welcome to Tic Tac Toe" << endl;
+				cout << "Enter 'p' to restart game, or 'q' to terminate game at any point." << endl;
 				new_game = false;//Set new_game to false, game has started
 			}
 
